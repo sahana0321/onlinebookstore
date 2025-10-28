@@ -1,11 +1,22 @@
-pipeline {  
-    agent any  
-        stages {  
-       	    stage("git_checkout") {  
-           	    steps {  
-              	    echo "cloning repository" 
-              	    echo "repo cloned successfully"  
-              	    }  
-         	    } 
-        }
+node{
+    
+    stage('clone'){
+        
+        git branch: 'feature/2025.10.25', url: 'https://github.com/sahana0321/onlinebookstore.git'
+    }
+    
+     stage('Build'){
+         
+         bat 'mvn clean install'
+    }
+    
+    stage('Test'){
+         
+         bat 'mvn clean install'
+    }
+    
+    stage('Artifacts'){
+         
+         archiveArtifacts artifacts: 'target/*.war', followSymlinks: false
+    }
 }
